@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js"></script>
+		<title>SNEK</title>
+	</head>	
+	<body>
+		<p id="score" style="font-family:arial;font-size:30px;position:absolute;top:3%;right:3%">Score: 0</p>
+	</body>
+	<script>
+		const fps = 30;
+		const gridSizeX = 21;
+		const gridSizeY = 12;
+		const tileSize = 50;
+		const windowSizeX = gridSizeX * tileSize;
+		const windowSizeY = gridSizeY * tileSize;
+		
+		let fruitX = baguette(gridSizeX);
+		let fruitY = baguette(gridSizeY);
+		let headX = Math.floor(gridSizeX / 2);
+		let headY = Math.floor(gridSizeY / 2);
+		let direction = 'right';
+		let timer = 0;
+		let score = 0;
+		let size = 0;
+		let tail = [];
+		
+		function baguette(min, max) {
+			if (max == null) {
+				max = min;
+				min = 0;
+			}
+			return Math.floor(min + Math.random() * max);
+		}
+		
+		function setup() {
+			createCanvas(windowSizeX + 1, windowSizeY + 1);
+			frameRate(fps);
+		}
+		
+		function lose() {
+			noLoop();
+			alert("You will never get the suck even though you suck!\nYour final score is: " + score);
+		}
+		
+		function draw() {
+			clear();
+			
+			if(timer % (fps / 10) == 0) {
+				if(tail.length < size) {
+					tail.push({x:headX, y:headY});
+				}
+				else if(tail.length > 0){
+					tail.push({x:headX, y:headY});
+					tail.splice(0, 1);
+				}
+				if(direction == 'up') {
+					headY--;
+				}
+				else if(direction == 'left') {
+					headX--;
+				}
+				else if(direction == 'down') {
+					headY++;
+				}
+				else if(direction == 'right') {
+					headX++;
+				}
+				
+				if (headX < 0 || headX > gridSizeX - 1 || headY < 0 || headY > gridSizeY - 1) {
+					lose();
+				}
+				
+				for(let i = 0; i < tail.length; i++) {
+					if(headX == tail[i].x && headY == tail[i].y) {
+						lose();
+						break;
+					}
+				}
+				
+				if(headX == fruitX && headY == fruitY) {
+					score++;
+					document.getElementById("score").innerHTML = "Score: " + score;
+					size++;
+					let bool = false;
+					do {
+						fruitX = baguette(gridSizeX);
+						fruitY = baguette(gridSizeY);
+						
+						for (let i = 0; i < tail.length; i++) {
+							if(fruitX == tail[i].x && fruitY == tail[i].y) {
+								bool = true;
+								break;
+							}
+						}
+						if(fruitX == headX && fruitY == headY) {
+							bool = true;
+						}
+					} while(bool);
+				}
+			}
+			
+			fill(0, 0, 255);
+			rect(fruitX * tileSize, fruitY * tileSize, tileSize, tileSize);
+			
+			for(let i = 0; i < tail.length; i++) {
+				fill(0, 0, 0);
+				rect(tail[i].x * tileSize, tail[i].y * tileSize, tileSize, tileSize);
+			}
+			
+			fill(150, 200, 100,);
+			rect(headX * tileSize, headY * tileSize, tileSize, tileSize)
+			
+			for(let x = 0; x < gridSizeX; x++) {
+				for(let y = 0; y < gridSizeY; y++) {
+					noFill();
+					rect(x * tileSize, y * tileSize, tileSize, tileSize);
+				}
+			}
+			timer++;
+		}
+	function keyPressed() {
+		if(keyCode == UP_ARROW || keyCode == 87) {
+			direction = 'up';
+		}
+		else if(keyCode == LEFT_ARROW || keyCode == 65) {
+			direction = 'left';
+		}
+		else if(keyCode == DOWN_ARROW || keyCode == 83) {
+			direction = 'down';
+		}
+		else if(keyCode == RIGHT_ARROW || keyCode == 68) {
+			direction = 'right';
+		}
+	}
+	</script>
+</html>
