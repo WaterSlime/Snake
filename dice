@@ -1,0 +1,39 @@
+//This is an Arduino code for a dice
+int value = 0;
+void setup() {
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(A0, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  rolling (LOW, LOW, LOW, HIGH);     //1
+  rolling (HIGH, LOW, LOW, LOW);     //2
+  rolling (HIGH, LOW, LOW, HIGH);    //3
+  rolling (HIGH, LOW, HIGH, LOW);    //4
+  rolling (HIGH, LOW, HIGH, HIGH);   //5
+  rolling (HIGH, HIGH, HIGH, LOW);   //6
+}
+void rolling(int e, int f, int g, int h) {
+  value = analogRead(A0);
+    if (value > 600) {
+    roll(e, f, g, h);
+  }
+  else  {
+    value = analogRead(A0);
+    Serial.println(value);
+    delay(100);
+  }
+}
+void roll(int a, int b, int c, int d) {
+  value = analogRead(A0);
+  digitalWrite(2, a);
+  digitalWrite(3, b);
+  digitalWrite(4, c);
+  digitalWrite(5, d);
+  Serial.println(value);
+  delay(8);
+}
