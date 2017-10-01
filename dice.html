@@ -1,0 +1,111 @@
+<!doctype HTML>
+<html>
+	<head>
+		<title>Dice</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.min.js"></script>
+	</head>
+	<body>
+		<button onClick="pause();" id="pause">Pause</button>
+	</body>
+	<style>
+		#pause {
+			border: 1px solid black;
+			border-radius: 50%;
+			width: 80px;
+			height: 80px;
+			background-color: gray;
+			box-shadow: 0 7px #999;
+			font-family: Comic Sans MS;
+			font-size: 25px;
+			color: blue;
+			position: absolute;
+			top: 10px;
+			left: 420px;
+		}
+		#pause:active {
+			transform: translateY(4px);
+			box-shadow: 0 3px #666;
+		}
+	</style>
+	<script>	
+		const size = 400;
+		const dotSize = 50;
+		const fps = 20;
+		const dotOne = {x:0.22 * size, y:0.22 * size};
+		const dotTwo = {x:0.78 * size, y:0.22 * size};
+		const dotThree = {x:0.22 * size, y:0.5 * size};
+		const dotFour = {x:0.5 * size, y:0.5 * size};
+		const dotFive = {x:0.78 * size, y:0.5 * size};
+		const dotSix = {x:0.22 * size, y:0.78 * size};
+		const dotSeven = {x:0.78 * size, y:0.78 * size};
+		let numbers = 0;
+		let paused = false;
+		
+		function setup() {
+			createCanvas(size + 1, size + 1);
+			frameRate(fps);
+			noFill();
+			rect(0, 0, size, size);
+		}
+		
+		function draw() {
+			clear();
+			if(numbers < 6) {
+			numbers++;
+				draws(numbers);
+			} else if (numbers == 6) {
+				numbers = 1;
+				draws(numbers);
+			}
+			noFill();
+			rect(0, 0, size, size);
+		}
+		function draws(a) {
+			fill(100, 100, 255);
+			if (a == 1) {
+				ellipse(dotFour.x, dotFour.y, dotSize);
+			} else if (a == 2) {
+				ellipse(dotOne.x, dotOne.y, dotSize);
+				ellipse(dotSeven.x, dotSeven.y, dotSize);
+			} else if (a == 3) {
+				ellipse(dotOne.x, dotOne.y, dotSize);
+				ellipse(dotFour.x, dotFour.y, dotSize);
+				ellipse(dotSeven.x, dotSeven.y, dotSize);
+			} else if (a == 4) {
+				ellipse(dotOne.x, dotOne.y, dotSize);
+				ellipse(dotTwo.x, dotTwo.y, dotSize);
+				ellipse(dotSix.x, dotSix.y, dotSize);
+				ellipse(dotSeven.x, dotSeven.y, dotSize);
+			} else if (a == 5) {
+				ellipse(dotOne.x, dotOne.y, dotSize);
+				ellipse(dotTwo.x, dotTwo.y, dotSize);
+				ellipse(dotFour.x, dotFour.y, dotSize);
+				ellipse(dotSix.x, dotSix.y, dotSize);
+				ellipse(dotSeven.x, dotSeven.y, dotSize);
+			} else if (a == 6) {
+				ellipse(dotOne.x, dotOne.y, dotSize);
+				ellipse(dotTwo.x, dotTwo.y, dotSize);
+				ellipse(dotThree.x, dotThree.y, dotSize);
+				ellipse(dotFive.x, dotFive.y, dotSize);
+				ellipse(dotSix.x, dotSix.y, dotSize);
+				ellipse(dotSeven.x, dotSeven.y, dotSize);
+			}
+		}
+		function pause() {
+			if(paused == true) {
+				paused = false;
+				loop();
+			} else if (paused == false) {
+				paused = true;
+				noLoop();
+			}
+		}
+		//ellipse(dotOne.x, dotOne.y, dotSize);
+		//ellipse(dotTwo.x, dotTwo.y, dotSize);
+		//ellipse(dotThree.x, dotThree.y, dotSize);
+		//ellipse(dotFour.x, dotFour.y, dotSize);
+		//ellipse(dotFive.x, dotFive.y, dotSize);
+		//ellipse(dotSix.x, dotSix.y, dotSize);
+		//ellipse(dotSeven.x, dotSeven.y, dotSize);
+	</script>
+</html>
