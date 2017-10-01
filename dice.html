@@ -27,7 +27,7 @@
 			box-shadow: 0 3px #666;
 		}
 	</style>
-	<script>	
+	<script>
 		const size = 400;
 		const dotSize = 50;
 		const fps = 20;
@@ -51,9 +51,8 @@
 		function draw() {
 			clear();
 			if(numbers < 6) {
-			numbers++;
-				draws(numbers);
-			} else if (numbers == 6) {
+				draws(++numbers); // here we can use an inline expression as it is more readable
+			} else { // just else is fine here 
 				numbers = 1;
 				draws(numbers);
 			}
@@ -92,14 +91,17 @@
 			}
 		}
 		function pause() {
-			if(paused == true) {
+			if(paused) { //no need to state pause == true. And use instead the operator === as it verifies that the operands are equal in terms of value and type.
 				paused = false;
 				loop();
-			} else if (paused == false) {
+			} else {
 				paused = true;
 				noLoop();
 			}
 		}
+
+		//else it's good code^^
+
 		//ellipse(dotOne.x, dotOne.y, dotSize);
 		//ellipse(dotTwo.x, dotTwo.y, dotSize);
 		//ellipse(dotThree.x, dotThree.y, dotSize);
